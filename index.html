@@ -67,8 +67,7 @@
             const [perimeter, setPerimeter] = useState('');
             const [showError, setShowError] = useState(false);
             const [errorMessage, setErrorMessage] = useState('');
-
-            const concretePrice = 190;
+            const [concretePrice, setConcretePrice] = useState('190');
 
             const calculate = () => {
                 setShowError(false);
@@ -109,7 +108,8 @@
             const cubicFeet = slabCubicFeet;
 
             const totalCubicYards = cubicYards + footingCubicYards;
-            const materialCost = totalCubicYards * concretePrice;
+            const pricePerYard = parseFloat(concretePrice) || 190;
+            const materialCost = totalCubicYards * pricePerYard;
             const total = materialCost;
 
             return React.createElement('div', { className: "min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6 flex items-center justify-center" },
@@ -152,6 +152,16 @@
                                         }, t + '"')
                                     )
                                 )
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('label', { className: "block text-cyan-300 text-sm font-semibold mb-2" }, "Concrete Price (per cubic yard)"),
+                                React.createElement('input', {
+                                    type: "number",
+                                    value: concretePrice,
+                                    onChange: (e) => setConcretePrice(e.target.value),
+                                    placeholder: "Price per yd³",
+                                    className: "w-full bg-white/5 border-2 border-cyan-500/30 rounded-xl p-4 text-white text-lg placeholder-white/40 focus:border-cyan-400 focus:outline-none transition-all"
+                                })
                             ),
                             React.createElement('div', { className: "bg-purple-500/10 border-2 border-purple-400/30 rounded-xl p-5 space-y-4" },
                                 React.createElement('h3', { className: "text-purple-300 font-semibold text-lg" }, "Footing Details (Optional)"),
@@ -227,7 +237,7 @@
                                 ),
                                 React.createElement('div', { className: "space-y-3" },
                                     React.createElement('div', { className: "flex justify-between items-center bg-white/5 rounded-lg p-3" },
-                                        React.createElement('span', { className: "text-cyan-200" }, `Concrete (${totalCubicYards.toFixed(2)} yd³ @ $${concretePrice}/yd³):`),
+                                        React.createElement('span', { className: "text-cyan-200" }, `Concrete (${totalCubicYards.toFixed(2)} yd³ @ $${pricePerYard}/yd³):`),
                                         React.createElement('span', { className: "text-white font-bold text-lg" }, `$${materialCost.toFixed(0)}`)
                                     ),
                                     React.createElement('div', { className: "h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent my-2" }),
@@ -245,7 +255,7 @@
                             )
                         )
                     ),
-                    React.createElement('p', { className: "text-center text-cyan-300/60 text-sm mt-6" }, `Material @ $${concretePrice}/yd³ · Final pricing may vary`)
+                    React.createElement('p', { className: "text-center text-cyan-300/60 text-sm mt-6" }, `Material @ $${pricePerYard}/yd³ · Final pricing may vary`)
                 )
             );
         }
