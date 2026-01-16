@@ -90,18 +90,25 @@
 
             const thicknessInFeet = parseInt(thickness) / 12;
 
-let footingCubicYards = 0;
-let slabArea = parseFloat(sqft) || 0;
+            let footingCubicYards = 0;
+            let slabArea = parseFloat(sqft) || 0;
 
-if (footingWidth && footingDepth && perimeter) {
-    const footingWidthFeet = parseFloat(footingWidth) / 12;
-    const footingDepthFeet = parseFloat(footingDepth) / 12;
-    
-    // Calculate footing area (perimeter × width)
-    const footingArea = parseFloat(perimeter) * footingWidthFeet;
-    
-    
-const totalCubicYards = cubicYards + footingCubicYards;
+            if (footingWidth && footingDepth && perimeter) {
+                const footingWidthFeet = parseFloat(footingWidth) / 12;
+                const footingDepthFeet = parseFloat(footingDepth) / 12;
+                
+                const footingArea = parseFloat(perimeter) * footingWidthFeet;
+                slabArea = (parseFloat(sqft) || 0) - footingArea;
+                
+                const footingCubicFeet = parseFloat(perimeter) * footingWidthFeet * footingDepthFeet;
+                footingCubicYards = footingCubicFeet / 27;
+            }
+
+            const slabCubicFeet = slabArea * thicknessInFeet;
+            const cubicYards = slabCubicFeet / 27;
+            const cubicFeet = slabCubicFeet;
+
+            const totalCubicYards = cubicYards + footingCubicYards;
             const materialCost = totalCubicYards * concretePrice;
             const total = materialCost;
 
@@ -114,12 +121,12 @@ const totalCubicYards = cubicYards + footingCubicYards;
                             ),
                             React.createElement('div', null,
                                 React.createElement('h1', { className: "text-2xl sm:text-3xl font-bold text-white" }, 
-    "Concrete",
-    React.createElement('br'),
-    "Flat-Work",
-    React.createElement('br'),
-    "Estimator"
-),
+                                    "Concrete",
+                                    React.createElement('br'),
+                                    "Flat-Work",
+                                    React.createElement('br'),
+                                    "Estimator"
+                                ),
                                 React.createElement('p', { className: "text-cyan-300 text-sm" }, "Quick pricing for your next job")
                             )
                         ),
@@ -226,7 +233,7 @@ const totalCubicYards = cubicYards + footingCubicYards;
                                     React.createElement('div', { className: "h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent my-2" }),
                                     React.createElement('div', { className: "flex justify-between items-center bg-gradient-to-r from-cyan-500/30 to-purple-500/30 rounded-lg p-4" },
                                         React.createElement('span', { className: "text-white font-semibold text-lg" }, "Total Cost:"),
-                                        React.createElement('span', { className: "text-white font-bold text-2xl" }, `$${total.toFixed(2)}`))
+                                        React.createElement('span', { className: "text-white font-bold text-2xl" }, `$${total.toFixed(2)}`)
                                     ),
                                     React.createElement('div', { className: "bg-white/5 rounded-lg p-3 mt-4" },
                                         React.createElement('p', { className: "text-cyan-100 text-sm" },
@@ -247,11 +254,3 @@ const totalCubicYards = cubicYards + footingCubicYards;
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
