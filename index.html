@@ -91,7 +91,7 @@
             const thicknessInFeet = parseInt(thickness) / 12;
 
 let footingCubicYards = 0;
-let slabArea = parseFloat(sqft);
+let slabArea = parseFloat(sqft) || 0;
 
 if (footingWidth && footingDepth && perimeter) {
     const footingWidthFeet = parseFloat(footingWidth) / 12;
@@ -101,11 +101,17 @@ if (footingWidth && footingDepth && perimeter) {
     const footingArea = parseFloat(perimeter) * footingWidthFeet;
     
     // Subtract footing area from main slab
-    slabArea = parseFloat(sqft) - footingArea;
+    slabArea = (parseFloat(sqft) || 0) - footingArea;
     
     // Footing concrete: perimeter × width × depth
     const footingCubicFeet = parseFloat(perimeter) * footingWidthFeet * footingDepthFeet;
     footingCubicYards = footingCubicFeet / 27;
+}
+
+// Main slab concrete (excluding footing area)
+const slabCubicFeet = slabArea * thicknessInFeet;
+const cubicYards = slabCubicFeet / 27;
+const cubicFeet = slabCubicFeet; // Define cubicFeet for display
 }
 
 // Main slab concrete (excluding footing area)
@@ -258,6 +264,7 @@ const totalCubicYards = cubicYards + footingCubicYards;
     </script>
 </body>
 </html>
+
 
 
 
