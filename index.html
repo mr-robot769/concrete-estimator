@@ -82,17 +82,6 @@
             const calculate = () => {
                 setShowError(false);
                 if (sqft && sqft > 0) {
-                    if (perimeter && perimeter > 0) {
-                        const side = parseFloat(perimeter) / 4;
-                        const calculatedSqFt = side * side;
-                        const tolerance = calculatedSqFt * 0.15;
-                        
-                        if (Math.abs(parseFloat(sqft) - calculatedSqFt) > tolerance) {
-                            setErrorMessage(`An ${perimeter}ft perimeter suggests approximately ${calculatedSqFt.toFixed(0)} sq ft. Your entered ${sqft} sq ft doesn't match.`);
-                            setShowError(true);
-                            return;
-                        }
-                    }
                     setShowEstimate(true);
                 }
             };
